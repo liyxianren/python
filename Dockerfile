@@ -18,8 +18,9 @@ COPY . .
 # Initialize database
 RUN python init_db.py
 
-# Expose port
-EXPOSE 5000
+# Default port (Zeabur will override with $PORT)
+ENV PORT=8080
+EXPOSE 8080
 
-# Run with gunicorn
-CMD ["gunicorn", "app:app", "--bind", "0.0.0.0:5000"]
+# Run with gunicorn using shell form to expand $PORT
+CMD gunicorn app:app --bind 0.0.0.0:$PORT
