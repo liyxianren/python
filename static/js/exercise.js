@@ -4,9 +4,13 @@ document.addEventListener('DOMContentLoaded', function() {
     let editor;
     let currentExercise = null;
 
+    // 获取当前语言（从练习题加载后获取，先默认python）
+    let LANG = window.CURRENT_LANGUAGE || 'python';
+    let editorMode = LANG === 'c' ? 'text/x-csrc' : 'python';
+
     // 初始化CodeMirror编辑器
     editor = CodeMirror.fromTextArea(document.getElementById('code-editor'), {
-        mode: 'python',
+        mode: editorMode,
         theme: 'dracula',
         lineNumbers: true,
         indentUnit: 4,
@@ -23,6 +27,11 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             if (data.success) {
                 currentExercise = data.data;
+                // 根据练习题的语言更新编辑器模式
+                LANG = currentExercise.language || 'python';
+                editorMode = LANG === 'c' ? 'text/x-csrc' : 'python';
+                editor.setOption('mode', editorMode);
+
                 renderExerciseInfo(currentExercise);
                 if (currentExercise.initial_code) {
                     editor.setValue(currentExercise.initial_code);
@@ -40,10 +49,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // 渲染练习题信息
     function renderExerciseInfo(exercise) {
         const difficultyText = ['', '简单', '中等', '困难'][exercise.difficulty] || '未知';
+        const langBadge = exercise.language === 'c'
+            ? '<span class="lang-tag lang-c">C语言</span>'
+            : '<span class="lang-tag lang-python">Python</span>';
         const container = document.getElementById('exercise-info');
         container.innerHTML = `
             <div class="exercise-header">
                 <h2>${exercise.title}</h2>
+                ${langBadge}
                 <span class="difficulty-badge difficulty-${exercise.difficulty}">${difficultyText}</span>
             </div>
             <div class="markdown-content">
@@ -58,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const btn = this;
 
         btn.disabled = true;
-        btn.textContent = '判题中...';
+        btn.textContent = LANG === 'c' ? '编译判题中...' : '判题中...';
 
         const resultSection = document.getElementById('result-section');
         const resultContent = document.getElementById('result-content');

@@ -14,7 +14,21 @@
       "Bash(git init:*)",
       "Bash(git -C \"c:\\\\Users\\\\Administrator\\\\Desktop\\\\python\" init)",
       "Bash(git -C \"c:\\\\Users\\\\Administrator\\\\Desktop\\\\python\" add -A)",
-      "Bash(git -C \"c:\\\\Users\\\\Administrator\\\\Desktop\\\\python\" status)"
+      "Bash(git -C \"c:\\\\Users\\\\Administrator\\\\Desktop\\\\python\" status)",
+      "Bash(git -C \"c:\\\\Users\\\\Administrator\\\\Desktop\\\\python\" commit -m \"$\\(cat <<''EOF''\nInitial commit: Python学习平台\n\n功能特性:\n- 7章Python教程内容\n- 40道练习题（含判题系统）\n- 在线代码编辑器（CodeMirror）\n- 代码执行与结果展示\n- 现代化响应式UI\n\n技术栈:\n- Flask + SQLAlchemy\n- Jinja2模板\n- SQLite数据库\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git -C \"c:\\\\Users\\\\Administrator\\\\Desktop\\\\python\" remote add:*)",
+      "Bash(git -C \"c:\\\\Users\\\\Administrator\\\\Desktop\\\\python\" branch -M main)",
+      "Bash(git -C \"c:\\\\Users\\\\Administrator\\\\Desktop\\\\python\" push -u origin main)",
+      "Bash(git -C \"c:\\\\Users\\\\Administrator\\\\Desktop\\\\python\" remote remove origin)",
+      "Bash(Get-ChildItem \"c:\\\\Users\\\\Administrator\\\\Desktop\\\\python\\\\templates\" -Recurse)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nfeat: 更新网站配色为清新科技蓝风格\n\n- 主色调从紫色渐变改为科技蓝 \\(#0ea5e9 → #06b6d4\\)\n- 更新 CSS 变量：primary-color, primary-dark, primary-light\n- 更新深色背景为深蓝黑 \\(#0f172a\\)\n- 更新背景色为极浅蓝 \\(#f0f9ff\\)\n- 修复 lesson_detail.html 中所有硬编码的紫色值\n- 统一所有页面的配色风格\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git push:*)",
+      "Bash(cat:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nfeat: 添加代码运行时的交互式输入弹窗\n\n- 新增 input-dialog.js 通用输入弹窗组件\n- 自动检测代码中的 input\\(\\) 调用次数\n- 提取 input\\(\\) 中的提示语作为弹窗标题\n- 支持多次输入，显示输入进度 \\(1/3, 2/3...\\)\n- 更新代码练习场：移除旧的输入框，使用弹窗\n- 更新课程详情页：代码块和练习区都支持输入弹窗\n- 用户可取消输入终止运行\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(dir:*)",
+      "Bash(copy:*)",
+      "Bash(Copy-Item -Path \"c:\\\\Users\\\\Administrator\\\\Desktop\\\\c-learning\\\\data\\\\lessons\\\\*.md\" -Destination \"c:\\\\Users\\\\Administrator\\\\Desktop\\\\python\\\\data\\\\lessons\"\")"
     ]
   }
 }

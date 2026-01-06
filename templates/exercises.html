@@ -1,24 +1,22 @@
 {% extends "base.html" %}
 
-{% block title %}练习题 - Python学习平台{% endblock %}
+{% block title %}练习题 - {{ 'Python' if language == 'python' else 'C语言' }}学习平台{% endblock %}
 
 {% block content %}
+{% set lang = language|default('python') %}
+{% set lang_name = 'Python' if lang == 'python' else 'C语言' %}
+{% set lang_prefix = '/' + lang %}
+
 <div class="container">
     <div class="page-header">
-        <h1>📝 练习题</h1>
+        <h1>{{ lang_name }} 练习题</h1>
         <p>通过练习巩固所学知识，选择对应章节开始挑战吧</p>
     </div>
 
     <!-- 章节筛选 -->
     <div class="exercises-filter" id="filter-buttons">
         <button class="filter-btn active" data-lesson="0">全部</button>
-        <button class="filter-btn" data-lesson="1">第1章 Python基础</button>
-        <button class="filter-btn" data-lesson="2">第2章 条件与循环</button>
-        <button class="filter-btn" data-lesson="3">第3章 函数与方法</button>
-        <button class="filter-btn" data-lesson="4">第4章 列表与字典</button>
-        <button class="filter-btn" data-lesson="5">第5章 类与对象</button>
-        <button class="filter-btn" data-lesson="6">第6章 面向对象</button>
-        <button class="filter-btn" data-lesson="7">第7章 异常处理</button>
+        <!-- 动态加载筛选按钮 -->
     </div>
 
     <div class="exercises-container" id="exercises-list">
@@ -32,26 +30,47 @@
 
 {% block extra_js %}
 <script>
+const LANG = '{{ lang }}';
+const LANG_PREFIX = '{{ lang_prefix }}';
+
 let allExercises = [];
-const chapterNames = ['', 'Python基础', '条件与循环', '函数与方法', '列表与字典', '类与对象', '面向对象', '异常处理'];
+let chapterNames = {};
 
 document.addEventListener('DOMContentLoaded', function() {
-    // 加载所有练习题
-    loadExercises();
+    // 先加载课程列表获取章节名
+    fetch('/api/lessons?language=' + LANG)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // 构建章节名映射和筛选按钮
+                const filterContainer = document.getElementById('filter-buttons');
+                let buttonsHtml = '<button class="filter-btn active" data-lesson="0">全部</button>';
 
-    // 筛选按钮事件
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-            const lessonId = parseInt(this.dataset.lesson);
-            filterExercises(lessonId);
+                data.data.forEach(lesson => {
+                    chapterNames[lesson.id] = lesson.title.replace(/第\d+章[：:]\s*/, '');
+                    buttonsHtml += `<button class="filter-btn" data-lesson="${lesson.id}">第${lesson.chapter_num}章</button>`;
+                });
+
+                filterContainer.innerHTML = buttonsHtml;
+
+                // 绑定筛选事件
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+                        const lessonId = parseInt(this.dataset.lesson);
+                        filterExercises(lessonId);
+                    });
+                });
+            }
         });
-    });
+
+    // 加载练习题
+    loadExercises();
 });
 
 function loadExercises() {
-    fetch('/api/exercises')
+    fetch('/api/exercises?language=' + LANG)
         .then(response => response.json())
         .then(data => {
             if (data.success) {
@@ -84,7 +103,7 @@ function renderExercises(exercises) {
     }
 
     container.innerHTML = exercises.map(ex => `
-        <a href="/exercises/${ex.id}" class="exercise-card">
+        <a href="${LANG_PREFIX}/exercises/${ex.id}" class="exercise-card">
             <div class="exercise-header">
                 <h3 class="exercise-title">${ex.title}</h3>
                 <span class="difficulty-badge difficulty-${ex.difficulty}">
@@ -93,7 +112,7 @@ function renderExercises(exercises) {
             </div>
             <p class="exercise-desc">${stripMarkdown(ex.description).substring(0, 80)}...</p>
             <div class="exercise-footer">
-                <span class="exercise-chapter">第${ex.lesson_id}章 · ${chapterNames[ex.lesson_id] || '未知'}</span>
+                <span class="exercise-chapter">${chapterNames[ex.lesson_id] || '练习'}</span>
                 <span class="exercise-arrow">→</span>
             </div>
         </a>
@@ -101,7 +120,6 @@ function renderExercises(exercises) {
 }
 
 function stripMarkdown(text) {
-    // 简单去除Markdown格式
     return text
         .replace(/```[\s\S]*?```/g, '')
         .replace(/\*\*/g, '')

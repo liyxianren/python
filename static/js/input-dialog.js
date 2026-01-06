@@ -1,9 +1,10 @@
 /**
- * Python Input 弹窗组件
- * 检测代码中的 input() 调用，弹窗收集用户输入
+ * 代码输入弹窗组件
+ * 检测代码中的 input() 或 scanf() 调用，弹窗收集用户输入
+ * 支持 Python 和 C 语言
  */
 
-class PythonInputDialog {
+class CodeInputDialog {
     constructor() {
         this.modal = null;
         this.createModal();
@@ -180,45 +181,73 @@ class PythonInputDialog {
     }
 
     /**
-     * 检测代码中的 input() 调用次数
+     * 检测代码中的输入调用次数
+     * @param {string} code - 代码
+     * @param {string} language - 语言 ('python' 或 'c')
      */
-    static countInputCalls(code) {
-        // 移除注释和字符串中的 input
+    static countInputCalls(code, language = 'python') {
         let cleanCode = code;
 
-        // 移除多行字符串
-        cleanCode = cleanCode.replace(/'''[\s\S]*?'''/g, '');
-        cleanCode = cleanCode.replace(/"""[\s\S]*?"""/g, '');
+        if (language === 'c') {
+            // C语言：移除注释和字符串
+            // 移除多行注释 /* ... */
+            cleanCode = cleanCode.replace(/\/\*[\s\S]*?\*\//g, '');
+            // 移除单行注释 //
+            cleanCode = cleanCode.replace(/\/\/.*/g, '');
+            // 移除字符串
+            cleanCode = cleanCode.replace(/"[^"\\]*(\\.[^"\\]*)*"/g, '');
 
-        // 移除单行字符串
-        cleanCode = cleanCode.replace(/'[^']*'/g, '');
-        cleanCode = cleanCode.replace(/"[^"]*"/g, '');
+            // 匹配 scanf( 调用
+            const matches = cleanCode.match(/\bscanf\s*\(/g);
+            return matches ? matches.length : 0;
+        } else {
+            // Python：移除注释和字符串中的 input
+            // 移除多行字符串
+            cleanCode = cleanCode.replace(/'''[\s\S]*?'''/g, '');
+            cleanCode = cleanCode.replace(/"""[\s\S]*?"""/g, '');
 
-        // 移除注释
-        cleanCode = cleanCode.replace(/#.*/g, '');
+            // 移除单行字符串
+            cleanCode = cleanCode.replace(/'[^']*'/g, '');
+            cleanCode = cleanCode.replace(/"[^"]*"/g, '');
 
-        // 匹配 input( 调用
-        const matches = cleanCode.match(/\binput\s*\(/g);
-        return matches ? matches.length : 0;
+            // 移除注释
+            cleanCode = cleanCode.replace(/#.*/g, '');
+
+            // 匹配 input( 调用
+            const matches = cleanCode.match(/\binput\s*\(/g);
+            return matches ? matches.length : 0;
+        }
     }
 
     /**
-     * 提取 input() 的提示语
+     * 提取输入提示语
+     * @param {string} code - 代码
+     * @param {string} language - 语言 ('python' 或 'c')
      */
-    static extractInputPrompts(code) {
+    static extractInputPrompts(code, language = 'python') {
         const prompts = [];
-        // 匹配 input("提示") 或 input('提示')
-        const regex = /\binput\s*\(\s*(['"`])(.*?)\1\s*\)/g;
-        let match;
 
-        while ((match = regex.exec(code)) !== null) {
-            prompts.push(match[2] || '请输入：');
-        }
+        if (language === 'c') {
+            // C语言：scanf 没有内置提示，但我们可以查找前面的 printf
+            // 简单处理：为每个 scanf 返回通用提示
+            const scanfCount = CodeInputDialog.countInputCalls(code, 'c');
+            for (let i = 0; i < scanfCount; i++) {
+                prompts.push('请输入数据：');
+            }
+        } else {
+            // Python：匹配 input("提示") 或 input('提示')
+            const regex = /\binput\s*\(\s*(['"`])(.*?)\1\s*\)/g;
+            let match;
 
-        // 匹配没有提示语的 input()
-        const noPromptRegex = /\binput\s*\(\s*\)/g;
-        while (noPromptRegex.exec(code) !== null) {
-            prompts.push('请输入：');
+            while ((match = regex.exec(code)) !== null) {
+                prompts.push(match[2] || '请输入：');
+            }
+
+            // 匹配没有提示语的 input()
+            const noPromptRegex = /\binput\s*\(\s*\)/g;
+            while (noPromptRegex.exec(code) !== null) {
+                prompts.push('请输入：');
+            }
         }
 
         return prompts;
@@ -262,21 +291,22 @@ class PythonInputDialog {
 
     /**
      * 收集所有输入
-     * @param {string} code - Python代码
+     * @param {string} code - 代码
+     * @param {string} language - 语言 ('python' 或 'c')
      * @returns {Promise<string>} - 所有输入用换行符连接
      */
-    async collectAllInputs(code) {
-        const inputCount = PythonInputDialog.countInputCalls(code);
+    async collectAllInputs(code, language = 'python') {
+        const inputCount = CodeInputDialog.countInputCalls(code, language);
 
         if (inputCount === 0) {
             return '';
         }
 
-        const prompts = PythonInputDialog.extractInputPrompts(code);
+        const prompts = CodeInputDialog.extractInputPrompts(code, language);
         const inputs = [];
 
         for (let i = 0; i < inputCount; i++) {
-            const prompt = prompts[i] || '请输入：';
+            const prompt = prompts[i] || (language === 'c' ? '请输入数据：' : '请输入：');
             try {
                 const value = await this.show(prompt, '', i, inputCount);
                 inputs.push(value);
@@ -290,5 +320,6 @@ class PythonInputDialog {
     }
 }
 
-// 创建全局实例
-window.pythonInputDialog = new PythonInputDialog();
+// 创建全局实例（保持向后兼容）
+window.codeInputDialog = new CodeInputDialog();
+window.pythonInputDialog = window.codeInputDialog;  // 兼容旧代码

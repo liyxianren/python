@@ -1,12 +1,17 @@
 import json
 from .code_executor import CodeExecutor
+from .c_executor import CExecutor
 
 
 class ExerciseChecker:
     """练习题判题服务"""
 
-    def __init__(self):
-        self.executor = CodeExecutor(timeout=5)
+    def __init__(self, language='python'):
+        self.language = language
+        if language == 'c':
+            self.executor = CExecutor(compile_timeout=10, run_timeout=5)
+        else:
+            self.executor = CodeExecutor(timeout=5)
 
     def check_submission(self, code: str, test_cases_json: str) -> dict:
         """

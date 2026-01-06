@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 
-{% block title %}练习题详情 - Python学习平台{% endblock %}
+{% set lang = language|default('python') %}
+{% set lang_name = 'Python' if lang == 'python' else 'C语言' %}
+{% set lang_prefix = '/' + lang %}
+
+{% block title %}练习题详情 - {{ lang_name }}学习平台{% endblock %}
 
 {% block content %}
 <div class="container exercise-detail-container">
@@ -44,7 +48,7 @@
     </div>
 
     <div class="exercise-nav">
-        <a href="/exercises" class="btn btn-outline">返回列表</a>
+        <a href="{{ lang_prefix }}/exercises" class="btn btn-outline">返回列表</a>
     </div>
 </div>
 {% endblock %}
@@ -52,6 +56,7 @@
 {% block extra_js %}
 <script>
     const exerciseId = {{ exercise_id }};
+    window.CURRENT_LANGUAGE = '{{ lang }}';
 </script>
 <script src="{{ url_for('static', filename='js/exercise.js') }}"></script>
 {% endblock %}

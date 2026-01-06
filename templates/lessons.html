@@ -1,12 +1,16 @@
 {% extends "base.html" %}
 
-{% block title %}教程列表 - Python学习平台{% endblock %}
+{% block title %}教程列表 - {{ 'Python' if language == 'python' else 'C语言' }}学习平台{% endblock %}
 
 {% block content %}
+{% set lang = language|default('python') %}
+{% set lang_name = 'Python' if lang == 'python' else 'C语言' %}
+{% set lang_prefix = '/' + lang %}
+
 <div class="container">
     <div class="page-header">
-        <h1>📚 Python 教程</h1>
-        <p>系统学习Python编程，从入门到精通，每章都配有详细讲解和练习题</p>
+        <h1>{{ lang_name }} 教程</h1>
+        <p>系统学习{{ lang_name }}编程，从入门到精通，每章都配有详细讲解和练习题</p>
     </div>
 
     <div class="lessons-container" id="lessons-list">
@@ -20,14 +24,17 @@
 
 {% block extra_js %}
 <script>
+const LANG = '{{ lang }}';
+const LANG_PREFIX = '{{ lang_prefix }}';
+
 document.addEventListener('DOMContentLoaded', function() {
-    fetch('/api/lessons')
+    fetch('/api/lessons?language=' + LANG)
         .then(response => response.json())
         .then(data => {
             const container = document.getElementById('lessons-list');
             if (data.success && data.data.length > 0) {
                 container.innerHTML = data.data.map(lesson => `
-                    <a href="/lessons/${lesson.id}" class="lesson-card">
+                    <a href="${LANG_PREFIX}/lessons/${lesson.id}" class="lesson-card">
                         <div class="lesson-card-header">
                             <div class="lesson-chapter">第 ${lesson.chapter_num} 章</div>
                             <h3 class="lesson-title">${lesson.title}</h3>

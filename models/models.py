@@ -9,6 +9,7 @@ class Lesson(db.Model):
     __tablename__ = 'lessons'
 
     id = db.Column(db.Integer, primary_key=True)
+    language = db.Column(db.String(20), default='python')  # 编程语言
     chapter_num = db.Column(db.Integer, nullable=False)  # 章节号
     title = db.Column(db.String(200), nullable=False)  # 标题
     description = db.Column(db.Text)  # 简介
@@ -23,6 +24,7 @@ class Lesson(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
+            'language': self.language,
             'chapter_num': self.chapter_num,
             'title': self.title,
             'description': self.description,
@@ -36,6 +38,7 @@ class Exercise(db.Model):
     __tablename__ = 'exercises'
 
     id = db.Column(db.Integer, primary_key=True)
+    language = db.Column(db.String(20), default='python')  # 编程语言
     lesson_id = db.Column(db.Integer, db.ForeignKey('lessons.id'), nullable=True)  # 关联章节
     title = db.Column(db.String(200), nullable=False)  # 题目标题
     description = db.Column(db.Text, nullable=False)  # 题目描述（Markdown）
@@ -49,6 +52,7 @@ class Exercise(db.Model):
     def to_dict(self, include_solution=False):
         data = {
             'id': self.id,
+            'language': self.language,
             'lesson_id': self.lesson_id,
             'title': self.title,
             'description': self.description,

@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 
-{% block title %}教程详情 - Python学习平台{% endblock %}
+{% set lang = language|default('python') %}
+{% set lang_name = 'Python' if lang == 'python' else 'C语言' %}
+{% set lang_prefix = '/' + lang %}
+
+{% block title %}教程详情 - {{ lang_name }}学习平台{% endblock %}
 
 {% block extra_css %}
 <style>
@@ -533,7 +537,7 @@
 
         <!-- 底部导航 -->
         <div class="lesson-nav">
-            <a href="/lessons" class="btn btn-outline">← 返回课程列表</a>
+            <a href="{{ lang_prefix }}/lessons" class="btn btn-outline">← 返回课程列表</a>
             <a href="#" class="btn btn-primary" id="next-lesson-btn" style="display: none;">下一章 →</a>
         </div>
     </div>
@@ -545,10 +549,26 @@
                 <div class="playground-title">代码练习区</div>
                 <div class="playground-actions">
                     <button class="playground-btn" onclick="clearEditor()">清空</button>
-                    <button class="playground-btn run-btn" onclick="runPlaygroundCode()">▶ 运行</button>
+                    <button class="playground-btn run-btn" onclick="runPlaygroundCode()">▶ {% if lang == 'c' %}编译运行{% else %}运行{% endif %}</button>
                 </div>
             </div>
             <div class="playground-editor">
+                {% if lang == 'c' %}
+                <textarea id="playground-code">// 在这里编写你的C语言代码
+#include <stdio.h>
+
+int main() {
+    printf("Hello, C!\n");
+
+    // 试试变量：
+    char name[] = "小明";
+    int age = 18;
+    printf("我是%s，今年%d岁\n", name, age);
+
+    return 0;
+}
+</textarea>
+                {% else %}
                 <textarea id="playground-code"># 在这里编写你的Python代码
 # 试试输入以下代码然后点击运行：
 
@@ -559,6 +579,7 @@ name = "小明"
 age = 18
 print(f"我是{name}，今年{age}岁")
 </textarea>
+                {% endif %}
             </div>
             <div class="playground-output-section">
                 <div class="output-header">
@@ -583,17 +604,21 @@ print(f"我是{name}，今年{age}岁")
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/dracula.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/python/python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/clike/clike.min.js"></script>
 <!-- 输入弹窗组件 -->
 <script src="{{ url_for('static', filename='js/input-dialog.js') }}"></script>
 
 <script>
 let playgroundEditor;
 const lessonId = {{ lesson_id }};
+const LANG = '{{ lang }}';
+const LANG_PREFIX = '{{ lang_prefix }}';
 
 document.addEventListener('DOMContentLoaded', function() {
-    // 初始化CodeMirror编辑器
+    // 初始化CodeMirror编辑器，根据语言选择模式
+    const editorMode = LANG === 'c' ? 'text/x-csrc' : 'python';
     playgroundEditor = CodeMirror.fromTextArea(document.getElementById('playground-code'), {
-        mode: 'python',
+        mode: editorMode,
         theme: 'dracula',
         lineNumbers: true,
         indentUnit: 4,
@@ -636,10 +661,11 @@ function loadLesson() {
                 // 为代码块添加运行按钮
                 addRunButtons();
 
-                // 设置下一章按钮
-                if (lesson.chapter_num < 7) {
+                // 设置下一章按钮（根据语言设置不同的章节数）
+                const maxChapter = LANG === 'c' ? 8 : 7;
+                if (lesson.chapter_num < maxChapter) {
                     const nextBtn = document.getElementById('next-lesson-btn');
-                    nextBtn.href = `/lessons/${lesson.chapter_num + 1}`;
+                    nextBtn.href = `${LANG_PREFIX}/lessons/${lesson.id + 1}`;
                     nextBtn.style.display = 'inline-block';
                 }
             } else {
@@ -653,7 +679,7 @@ function loadLesson() {
 }
 
 function loadExercises() {
-    fetch(`/api/exercises?lesson_id=${lessonId}`)
+    fetch(`/api/exercises?lesson_id=${lessonId}&language=${LANG}`)
         .then(response => response.json())
         .then(data => {
             if (data.success && data.data.length > 0) {
@@ -666,7 +692,7 @@ function loadExercises() {
                 const difficultyClass = ['', 'easy', 'medium', 'hard'];
 
                 list.innerHTML = data.data.map((ex, index) => `
-                    <a href="/exercises/${ex.id}" class="exercise-item">
+                    <a href="${LANG_PREFIX}/exercises/${ex.id}" class="exercise-item">
                         <div class="exercise-num">${index + 1}</div>
                         <div class="exercise-info">
                             <div class="exercise-name">${ex.title}</div>
@@ -743,11 +769,11 @@ async function runCodeBlock(code, wrapper) {
     fetch('/api/code/run', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code: code, input: userInput })
+        body: JSON.stringify({ code: code, input: userInput, language: LANG })
     })
     .then(response => response.json())
     .then(data => {
-        btn.innerHTML = '▶ 运行';
+        btn.innerHTML = LANG === 'c' ? '▶ 编译运行' : '▶ 运行';
         btn.disabled = false;
 
         if (data.success) {
@@ -759,7 +785,7 @@ async function runCodeBlock(code, wrapper) {
         }
     })
     .catch(error => {
-        btn.innerHTML = '▶ 运行';
+        btn.innerHTML = LANG === 'c' ? '▶ 编译运行' : '▶ 运行';
         btn.disabled = false;
         outputDiv.classList.add('error');
         outputDiv.innerHTML = '<div class="code-output-label">错误</div>网络错误，请重试';
@@ -791,17 +817,17 @@ async function runPlaygroundCode() {
     fetch('/api/code/run', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code: code, input: userInput })
+        body: JSON.stringify({ code: code, input: userInput, language: LANG })
     })
     .then(response => response.json())
     .then(data => {
         if (data.success) {
             statusDot.className = 'status-dot success';
-            statusText.textContent = '运行成功';
+            statusText.textContent = LANG === 'c' ? '编译运行成功' : '运行成功';
             outputDiv.textContent = data.output || '(程序无输出)';
         } else {
             statusDot.className = 'status-dot error';
-            statusText.textContent = '运行出错';
+            statusText.textContent = LANG === 'c' ? '编译/运行出错' : '运行出错';
             outputDiv.classList.add('error');
             outputDiv.textContent = data.error;
         }
@@ -815,7 +841,11 @@ async function runPlaygroundCode() {
 }
 
 function clearEditor() {
-    playgroundEditor.setValue('# 在这里编写你的Python代码\n\n');
+    if (LANG === 'c') {
+        playgroundEditor.setValue('// 在这里编写你的C语言代码\n#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n');
+    } else {
+        playgroundEditor.setValue('# 在这里编写你的Python代码\n\n');
+    }
     playgroundEditor.focus();
 }
 

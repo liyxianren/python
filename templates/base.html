@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Python学习平台{% endblock %}</title>
+    <title>{% block title %}编程学习平台{% endblock %}</title>
     <!-- CodeMirror CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/dracula.min.css">
@@ -14,14 +14,31 @@
     {% block extra_css %}{% endblock %}
 </head>
 <body>
+    {% set lang = language|default('python') %}
+    {% set lang_name = 'Python' if lang == 'python' else 'C语言' %}
+    {% set lang_prefix = '/' + lang %}
+
     <nav class="navbar">
         <div class="nav-container">
-            <a href="/" class="nav-logo">Python学习平台</a>
+            <a href="/" class="nav-logo">
+                {% if lang == 'c' %}
+                    <span class="lang-badge lang-c">C</span> C语言学习
+                {% else %}
+                    <span class="lang-badge lang-python">Py</span> Python学习
+                {% endif %}
+            </a>
             <ul class="nav-menu">
                 <li><a href="/" class="nav-link">首页</a></li>
-                <li><a href="/lessons" class="nav-link">教程</a></li>
-                <li><a href="/playground" class="nav-link">代码练习场</a></li>
-                <li><a href="/exercises" class="nav-link">练习题</a></li>
+                <li><a href="{{ lang_prefix }}/lessons" class="nav-link">教程</a></li>
+                <li><a href="{{ lang_prefix }}/playground" class="nav-link">代码练习场</a></li>
+                <li><a href="{{ lang_prefix }}/exercises" class="nav-link">练习题</a></li>
+                <li class="nav-divider"></li>
+                <li>
+                    <a href="{% if lang == 'python' %}/c/lessons{% else %}/python/lessons{% endif %}"
+                       class="nav-link nav-switch">
+                        切换到 {% if lang == 'python' %}C语言{% else %}Python{% endif %}
+                    </a>
+                </li>
             </ul>
         </div>
     </nav>
@@ -32,16 +49,24 @@
 
     <footer class="footer">
         <div class="footer-container">
-            <p>Python教学辅助平台 - 帮助学生学习Python编程</p>
+            <p>编程学习平台 - 帮助学生学习 Python 和 C 语言编程</p>
         </div>
     </footer>
 
     <!-- CodeMirror JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/clike/clike.min.js"></script>
     <!-- 代码高亮 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/c.min.js"></script>
+
+    <!-- 全局语言变量 -->
+    <script>
+        window.CURRENT_LANGUAGE = '{{ lang }}';
+    </script>
+
     {% block extra_js %}{% endblock %}
 </body>
 </html>

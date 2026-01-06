@@ -1,66 +1,283 @@
 {% extends "base.html" %}
 
-{% block title %}首页 - Python学习平台{% endblock %}
+{% block title %}首页 - 编程学习平台{% endblock %}
 
 {% block content %}
 <div class="container">
     <section class="hero">
-        <h1>Python 学习平台</h1>
-        <p class="hero-subtitle">从零开始，系统学习Python编程，掌握编程思维，开启你的编程之旅</p>
-        <div class="hero-actions">
-            <a href="/lessons/1" class="btn btn-white btn-large">立即开始学习</a>
-            <a href="/playground" class="btn btn-outline btn-large" style="border-color: white; color: white;">代码练习场</a>
+        <h1>编程学习平台</h1>
+        <p class="hero-subtitle">从零开始，系统学习编程，掌握编程思维，开启你的编程之旅</p>
+        <p class="hero-desc">支持 Python 和 C 语言在线学习与练习</p>
+    </section>
+
+    <!-- 语言选择卡片 -->
+    <section class="language-selection">
+        <h2>选择学习语言</h2>
+        <div class="language-cards">
+            <!-- Python 卡片 -->
+            <a href="/python/lessons" class="language-card python-card">
+                <div class="language-icon">
+                    <span class="lang-badge-large lang-python">Py</span>
+                </div>
+                <h3>Python</h3>
+                <p class="language-desc">简洁易学，适合初学者。广泛应用于数据科学、Web开发、人工智能等领域。</p>
+                <ul class="language-features">
+                    <li>7 章系统课程</li>
+                    <li>40+ 道练习题</li>
+                    <li>在线代码练习场</li>
+                </ul>
+                <span class="card-btn">开始学习 Python →</span>
+            </a>
+
+            <!-- C语言 卡片 -->
+            <a href="/c/lessons" class="language-card c-card">
+                <div class="language-icon">
+                    <span class="lang-badge-large lang-c">C</span>
+                </div>
+                <h3>C语言</h3>
+                <p class="language-desc">经典系统编程语言，贴近底层硬件。学好C语言是理解计算机原理的基础。</p>
+                <ul class="language-features">
+                    <li>8 章系统课程</li>
+                    <li>14+ 道练习题</li>
+                    <li>在线编译运行</li>
+                </ul>
+                <span class="card-btn">开始学习 C语言 →</span>
+            </a>
         </div>
     </section>
 
+    <!-- Python 课程预览 -->
     <section class="features">
-        <h2>📚 课程内容</h2>
+        <h2>Python 课程内容</h2>
         <div class="feature-grid">
             <div class="feature-card">
                 <div class="feature-icon">📝</div>
                 <h3>Python基础</h3>
-                <p>变量与数据类型、输入输出、运算符、类型转换，打下坚实的编程基础</p>
+                <p>变量与数据类型、输入输出、运算符、类型转换</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">🔄</div>
                 <h3>条件与循环</h3>
-                <p>if/elif/else条件判断、for和while循环、break与continue控制流程</p>
+                <p>if/elif/else条件判断、for和while循环</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">⚡</div>
                 <h3>函数与方法</h3>
-                <p>函数定义与调用、参数传递、返回值、作用域、lambda表达式</p>
+                <p>函数定义与调用、参数传递、返回值</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">📊</div>
                 <h3>列表与字典</h3>
-                <p>列表的创建与操作、字典的使用、切片、推导式等高效数据处理</p>
+                <p>列表操作、字典使用、切片、推导式</p>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon">🎯</div>
-                <h3>类与对象</h3>
-                <p>面向对象基础、类的定义、构造函数、实例属性与类属性</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🏗️</div>
-                <h3>面向对象编程</h3>
-                <p>继承与多态、封装、super()方法、魔术方法，掌握OOP精髓</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🛡️</div>
-                <h3>异常处理</h3>
-                <p>try/except异常捕获、raise抛出异常、自定义异常类，编写健壮代码</p>
-            </div>
+        </div>
+        <div class="section-action">
+            <a href="/python/lessons" class="btn btn-primary">查看全部 Python 课程 →</a>
         </div>
     </section>
 
-    <section class="quick-actions">
-        <h2>🚀 开始你的学习之旅</h2>
-        <div class="action-buttons">
-            <a href="/lessons" class="btn btn-primary btn-large">查看全部课程</a>
-            <a href="/playground" class="btn btn-secondary btn-large">在线代码练习</a>
-            <a href="/exercises" class="btn btn-outline btn-large">练习题挑战</a>
+    <!-- C语言 课程预览 -->
+    <section class="features features-c">
+        <h2>C语言 课程内容</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🔧</div>
+                <h3>C语言入门</h3>
+                <p>Hello World、编译流程、printf输出</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔢</div>
+                <h3>数据类型与变量</h3>
+                <p>int/float/char、scanf输入、类型转换</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔄</div>
+                <h3>循环与数组</h3>
+                <p>for/while循环、一维二维数组、字符串</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>函数与指针</h3>
+                <p>函数定义、递归、指针概念与操作</p>
+            </div>
+        </div>
+        <div class="section-action">
+            <a href="/c/lessons" class="btn btn-primary">查看全部 C语言 课程 →</a>
         </div>
     </section>
 </div>
+
+<style>
+/* 首页专用样式 */
+.hero-desc {
+    color: rgba(255,255,255,0.8);
+    font-size: 1.1rem;
+    margin-top: 10px;
+}
+
+.language-selection {
+    padding: 40px 0;
+}
+
+.language-selection h2 {
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+    color: #0f172a;
+}
+
+.language-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.language-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 30px;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    transition: all 0.3s;
+    border: 2px solid transparent;
+}
+
+.language-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+}
+
+.python-card:hover {
+    border-color: #3776ab;
+}
+
+.c-card:hover {
+    border-color: #00599c;
+}
+
+.language-icon {
+    margin-bottom: 20px;
+}
+
+.lang-badge-large {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+}
+
+.lang-badge-large.lang-python {
+    background: linear-gradient(135deg, #3776ab, #ffd43b);
+}
+
+.lang-badge-large.lang-c {
+    background: linear-gradient(135deg, #00599c, #004482);
+}
+
+.language-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #0f172a;
+}
+
+.language-desc {
+    color: #64748b;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.language-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px 0;
+}
+
+.language-features li {
+    padding: 8px 0;
+    color: #475569;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.language-features li:last-child {
+    border-bottom: none;
+}
+
+.language-features li::before {
+    content: "✓";
+    color: #10b981;
+    margin-right: 10px;
+}
+
+.card-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: var(--primary-gradient);
+    color: white;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.language-card:hover .card-btn {
+    transform: translateX(5px);
+}
+
+.section-action {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.features-c {
+    background: #f8fafc;
+    margin: 0 -20px;
+    padding: 40px 20px;
+}
+
+/* 导航栏语言徽章 */
+.lang-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: white;
+    margin-right: 8px;
+}
+
+.lang-badge.lang-python {
+    background: linear-gradient(135deg, #3776ab, #ffd43b);
+}
+
+.lang-badge.lang-c {
+    background: linear-gradient(135deg, #00599c, #004482);
+}
+
+.nav-divider {
+    width: 1px;
+    height: 20px;
+    background: rgba(255,255,255,0.3);
+    margin: 0 10px;
+}
+
+.nav-switch {
+    background: rgba(255,255,255,0.1);
+    padding: 6px 12px !important;
+    border-radius: 6px;
+}
+
+.nav-switch:hover {
+    background: rgba(255,255,255,0.2);
+}
+</style>
 {% endblock %}

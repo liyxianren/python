@@ -1,9 +1,13 @@
 // 代码练习场编辑器逻辑
 
 document.addEventListener('DOMContentLoaded', function() {
+    // 获取当前语言
+    const LANG = window.CURRENT_LANGUAGE || 'python';
+    const editorMode = LANG === 'c' ? 'text/x-csrc' : 'python';
+
     // 初始化CodeMirror编辑器
     const editor = CodeMirror.fromTextArea(document.getElementById('code-editor'), {
-        mode: 'python',
+        mode: editorMode,
         theme: 'dracula',
         lineNumbers: true,
         indentUnit: 4,
@@ -18,6 +22,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const clearBtn = document.getElementById('clear-output');
     const outputEl = document.getElementById('output');
 
+    const runBtnText = LANG === 'c' ? '编译运行' : '运行代码';
+
     // 运行代码
     runBtn.addEventListener('click', async function() {
         const code = editor.getValue();
@@ -25,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // 检测是否需要输入，弹窗收集
         let userInput = '';
         try {
-            userInput = await window.pythonInputDialog.collectAllInputs(code);
+            userInput = await window.codeInputDialog.collectAllInputs(code, LANG);
         } catch (e) {
             if (e.message === 'cancelled') {
                 // 用户取消了输入
@@ -33,10 +39,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        outputEl.textContent = '运行中...';
+        outputEl.textContent = LANG === 'c' ? '编译运行中...' : '运行中...';
         outputEl.className = 'output-area';
         runBtn.disabled = true;
-        runBtn.textContent = '运行中...';
+        runBtn.textContent = LANG === 'c' ? '编译中...' : '运行中...';
 
         try {
             const response = await fetch('/api/code/run', {
@@ -44,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ code, input: userInput })
+                body: JSON.stringify({ code, input: userInput, language: LANG })
             });
 
             const result = await response.json();
@@ -61,13 +67,16 @@ document.addEventListener('DOMContentLoaded', function() {
             outputEl.className = 'output-area error';
         } finally {
             runBtn.disabled = false;
-            runBtn.textContent = '运行代码';
+            runBtn.textContent = runBtnText;
         }
     });
 
     // 清空输出
     clearBtn.addEventListener('click', function() {
-        outputEl.textContent = '点击"运行代码"查看结果...';
+        const placeholder = LANG === 'c'
+            ? '点击"编译运行"查看结果...\n如果代码中有 scanf()，会自动弹窗让你输入'
+            : '点击"运行代码"查看结果...\n如果代码中有 input()，会自动弹窗让你输入';
+        outputEl.textContent = placeholder;
         outputEl.className = 'output-area';
     });
 

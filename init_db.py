@@ -10,64 +10,143 @@ from models import Lesson, Exercise
 
 def init_lessons():
     """初始化教案数据"""
-    lessons_data = [
+    # Python 课程
+    python_lessons = [
         {
             "chapter_num": 1,
             "title": "Python基础",
             "description": "变量、数据类型、输入输出、运算符、类型转换",
             "content_file": "01_python_basics.md",
-            "order_index": 1
+            "order_index": 1,
+            "language": "python"
         },
         {
             "chapter_num": 2,
             "title": "条件分支与循环",
             "description": "if/elif/else、比较运算符、逻辑运算符、for循环、while循环、break/continue",
             "content_file": "02_conditions_loops.md",
-            "order_index": 2
+            "order_index": 2,
+            "language": "python"
         },
         {
             "chapter_num": 3,
             "title": "函数与方法",
             "description": "函数定义、参数类型、返回值、作用域、内置函数、lambda表达式",
             "content_file": "03_functions_methods.md",
-            "order_index": 3
+            "order_index": 3,
+            "language": "python"
         },
         {
             "chapter_num": 4,
             "title": "列表与字典",
             "description": "列表操作、字典操作、切片、推导式、常用方法",
             "content_file": "04_list_dict.md",
-            "order_index": 4
+            "order_index": 4,
+            "language": "python"
         },
         {
             "chapter_num": 5,
             "title": "类与对象",
             "description": "类定义、构造函数、实例属性、类属性、实例方法",
             "content_file": "05_class_object.md",
-            "order_index": 5
+            "order_index": 5,
+            "language": "python"
         },
         {
             "chapter_num": 6,
             "title": "面向对象编程",
             "description": "封装、继承、多态、super()、魔术方法",
             "content_file": "06_oop.md",
-            "order_index": 6
+            "order_index": 6,
+            "language": "python"
         },
         {
             "chapter_num": 7,
             "title": "异常处理",
             "description": "try/except/finally、raise、自定义异常、断言",
             "content_file": "07_exception.md",
-            "order_index": 7
+            "order_index": 7,
+            "language": "python"
         }
     ]
 
-    for data in lessons_data:
+    # C 语言课程
+    c_lessons = [
+        {
+            "chapter_num": 1,
+            "title": "C语言入门",
+            "description": "了解C语言的历史、特点，编写第一个Hello World程序，理解编译流程",
+            "content_file": "01_c_intro.md",
+            "order_index": 1,
+            "language": "c"
+        },
+        {
+            "chapter_num": 2,
+            "title": "数据类型与变量",
+            "description": "学习C语言的基本数据类型（int、float、char），变量声明与初始化，scanf和printf的使用",
+            "content_file": "02_data_types.md",
+            "order_index": 2,
+            "language": "c"
+        },
+        {
+            "chapter_num": 3,
+            "title": "运算符与表达式",
+            "description": "掌握算术运算符、关系运算符、逻辑运算符和位运算符的使用",
+            "content_file": "03_operators.md",
+            "order_index": 3,
+            "language": "c"
+        },
+        {
+            "chapter_num": 4,
+            "title": "条件语句",
+            "description": "学习if-else条件判断、switch-case多分支选择结构",
+            "content_file": "04_conditions.md",
+            "order_index": 4,
+            "language": "c"
+        },
+        {
+            "chapter_num": 5,
+            "title": "循环结构",
+            "description": "掌握for循环、while循环、do-while循环，以及break和continue的使用",
+            "content_file": "05_loops.md",
+            "order_index": 5,
+            "language": "c"
+        },
+        {
+            "chapter_num": 6,
+            "title": "数组",
+            "description": "学习一维数组、二维数组的声明和使用，字符串处理函数",
+            "content_file": "06_arrays.md",
+            "order_index": 6,
+            "language": "c"
+        },
+        {
+            "chapter_num": 7,
+            "title": "函数",
+            "description": "学习函数的定义与调用、参数传递、返回值、递归函数和变量作用域",
+            "content_file": "07_functions.md",
+            "order_index": 7,
+            "language": "c"
+        },
+        {
+            "chapter_num": 8,
+            "title": "指针基础",
+            "description": "理解指针的概念，学习指针的声明、初始化和基本操作，指针与数组的关系",
+            "content_file": "08_pointers.md",
+            "order_index": 8,
+            "language": "c"
+        }
+    ]
+
+    all_lessons = python_lessons + c_lessons
+
+    for data in all_lessons:
         lesson = Lesson(**data)
         db.session.add(lesson)
 
     db.session.commit()
-    print(f"已添加 {len(lessons_data)} 个教案")
+    print(f"已添加 {len(python_lessons)} 个Python教案")
+    print(f"已添加 {len(c_lessons)} 个C语言教案")
 
 
 def init_exercises():
@@ -786,12 +865,261 @@ def init_exercises():
         }
     ]
 
-    for data in exercises_data:
+    # C语言练习题 (lesson_id 从 8 开始，对应 C 语言课程)
+    c_exercises_data = [
+        # 第一章练习 (C语言入门) - lesson_id: 8
+        {
+            "lesson_id": 8,
+            "title": "Hello World",
+            "description": "编写一个程序，输出 \"Hello, World!\"（注意大小写和标点符号）。",
+            "difficulty": 1,
+            "language": "c",
+            "initial_code": '#include <stdio.h>\n\nint main() {\n    // 在这里编写你的代码\n    \n    return 0;\n}',
+            "test_cases": json.dumps({
+                "test_type": "output",
+                "cases": [{"input": "", "expected_output": "Hello, World!", "description": "输出Hello, World!"}]
+            }),
+            "hint": "使用 printf 函数输出文本",
+            "solution": '#include <stdio.h>\n\nint main() {\n    printf("Hello, World!");\n    return 0;\n}'
+        },
+        {
+            "lesson_id": 8,
+            "title": "自我介绍",
+            "description": "编写程序，使用三个printf语句分别输出：\n第一行：My name is C\n第二行：I am 50 years old\n第三行：Nice to meet you!",
+            "difficulty": 1,
+            "language": "c",
+            "initial_code": '#include <stdio.h>\n\nint main() {\n    // 使用三个printf语句输出\n    \n    return 0;\n}',
+            "test_cases": json.dumps({
+                "test_type": "output",
+                "cases": [{"input": "", "expected_output": "My name is C\nI am 50 years old\nNice to meet you!", "description": "输出三行介绍"}]
+            }),
+            "hint": "每个 printf 后使用 \\n 换行",
+            "solution": '#include <stdio.h>\n\nint main() {\n    printf("My name is C\\n");\n    printf("I am 50 years old\\n");\n    printf("Nice to meet you!");\n    return 0;\n}'
+        },
+        # 第二章练习 (数据类型与变量) - lesson_id: 9
+        {
+            "lesson_id": 9,
+            "title": "整数输入输出",
+            "description": "从键盘读取一个整数，然后原样输出这个整数。",
+            "difficulty": 1,
+            "language": "c",
+            "initial_code": '#include <stdio.h>\n\nint main() {\n    int num;\n    // 读取整数并输出\n    \n    return 0;\n}',
+            "test_cases": json.dumps({
+                "test_type": "output",
+                "cases": [
+                    {"input": "42", "expected_output": "42", "description": "输入42"},
+                    {"input": "-10", "expected_output": "-10", "description": "输入-10"}
+                ]
+            }),
+            "hint": "使用 scanf 读取，printf 输出",
+            "solution": '#include <stdio.h>\n\nint main() {\n    int num;\n    scanf("%d", &num);\n    printf("%d", num);\n    return 0;\n}'
+        },
+        {
+            "lesson_id": 9,
+            "title": "计算两数之和",
+            "description": "读取两个整数，计算并输出它们的和。输出格式为：a + b = sum",
+            "difficulty": 1,
+            "language": "c",
+            "initial_code": '#include <stdio.h>\n\nint main() {\n    int a, b;\n    // 读取两个整数，计算并输出\n    \n    return 0;\n}',
+            "test_cases": json.dumps({
+                "test_type": "output",
+                "cases": [
+                    {"input": "3\n5", "expected_output": "3 + 5 = 8", "description": "3+5"},
+                    {"input": "10\n20", "expected_output": "10 + 20 = 30", "description": "10+20"}
+                ]
+            }),
+            "hint": "使用两次 scanf 分别读取两个数",
+            "solution": '#include <stdio.h>\n\nint main() {\n    int a, b;\n    scanf("%d", &a);\n    scanf("%d", &b);\n    printf("%d + %d = %d", a, b, a + b);\n    return 0;\n}'
+        },
+        {
+            "lesson_id": 9,
+            "title": "温度转换",
+            "description": "读取一个摄氏温度（整数），转换为华氏温度并输出（保留1位小数）。公式：F = C * 9/5 + 32",
+            "difficulty": 2,
+            "language": "c",
+            "initial_code": '#include <stdio.h>\n\nint main() {\n    int celsius;\n    // 读取摄氏温度，转换并输出华氏温度\n    \n    return 0;\n}',
+            "test_cases": json.dumps({
+                "test_type": "output",
+                "cases": [
+                    {"input": "0", "expected_output": "32.0", "description": "0度"},
+                    {"input": "100", "expected_output": "212.0", "description": "100度"}
+                ]
+            }),
+            "hint": "注意使用浮点数除法 9.0/5 或 9/5.0",
+            "solution": '#include <stdio.h>\n\nint main() {\n    int celsius;\n    scanf("%d", &celsius);\n    float fahrenheit = celsius * 9.0 / 5 + 32;\n    printf("%.1f", fahrenheit);\n    return 0;\n}'
+        },
+        # 第三章练习 (运算符与表达式) - lesson_id: 10
+        {
+            "lesson_id": 10,
+            "title": "判断奇偶",
+            "description": "读取一个整数，判断它是奇数还是偶数。如果是偶数输出 \"even\"，如果是奇数输出 \"odd\"。",
+            "difficulty": 1,
+            "language": "c",
+            "initial_code": '#include <stdio.h>\n\nint main() {\n    int num;\n    // 读取整数，判断奇偶\n    \n    return 0;\n}',
+            "test_cases": json.dumps({
+                "test_type": "output",
+                "cases": [
+                    {"input": "4", "expected_output": "even", "description": "4是偶数"},
+                    {"input": "7", "expected_output": "odd", "description": "7是奇数"},
+                    {"input": "0", "expected_output": "even", "description": "0是偶数"}
+                ]
+            }),
+            "hint": "使用取模运算符 % 判断是否能被2整除",
+            "solution": '#include <stdio.h>\n\nint main() {\n    int num;\n    scanf("%d", &num);\n    if (num % 2 == 0) {\n        printf("even");\n    } else {\n        printf("odd");\n    }\n    return 0;\n}'
+        },
+        # 第四章练习 (条件语句) - lesson_id: 11
+        {
+            "lesson_id": 11,
+            "title": "成绩等级",
+            "description": "读取一个0-100的分数，输出对应等级：\n90-100: A\n80-89: B\n70-79: C\n60-69: D\n0-59: F",
+            "difficulty": 2,
+            "language": "c",
+            "initial_code": '#include <stdio.h>\n\nint main() {\n    int score;\n    // 读取分数，输出等级\n    \n    return 0;\n}',
+            "test_cases": json.dumps({
+                "test_type": "output",
+                "cases": [
+                    {"input": "95", "expected_output": "A", "description": "95分"},
+                    {"input": "85", "expected_output": "B", "description": "85分"},
+                    {"input": "55", "expected_output": "F", "description": "55分"}
+                ]
+            }),
+            "hint": "使用 if-else if-else 结构或 switch 语句",
+            "solution": '#include <stdio.h>\n\nint main() {\n    int score;\n    scanf("%d", &score);\n    if (score >= 90) printf("A");\n    else if (score >= 80) printf("B");\n    else if (score >= 70) printf("C");\n    else if (score >= 60) printf("D");\n    else printf("F");\n    return 0;\n}'
+        },
+        {
+            "lesson_id": 11,
+            "title": "三数最大值",
+            "description": "读取三个整数，输出其中的最大值。",
+            "difficulty": 2,
+            "language": "c",
+            "initial_code": '#include <stdio.h>\n\nint main() {\n    int a, b, c;\n    // 读取三个整数，输出最大值\n    \n    return 0;\n}',
+            "test_cases": json.dumps({
+                "test_type": "output",
+                "cases": [
+                    {"input": "1\n2\n3", "expected_output": "3", "description": "1,2,3"},
+                    {"input": "10\n5\n8", "expected_output": "10", "description": "10,5,8"}
+                ]
+            }),
+            "hint": "使用嵌套的 if-else 或逐一比较",
+            "solution": '#include <stdio.h>\n\nint main() {\n    int a, b, c, max;\n    scanf("%d", &a);\n    scanf("%d", &b);\n    scanf("%d", &c);\n    max = a;\n    if (b > max) max = b;\n    if (c > max) max = c;\n    printf("%d", max);\n    return 0;\n}'
+        },
+        # 第五章练习 (循环结构) - lesson_id: 12
+        {
+            "lesson_id": 12,
+            "title": "计算阶乘",
+            "description": "读取一个非负整数n（0<=n<=12），计算并输出n的阶乘。注意：0! = 1",
+            "difficulty": 2,
+            "language": "c",
+            "initial_code": '#include <stdio.h>\n\nint main() {\n    int n;\n    // 读取n，计算并输出n!\n    \n    return 0;\n}',
+            "test_cases": json.dumps({
+                "test_type": "output",
+                "cases": [
+                    {"input": "5", "expected_output": "120", "description": "5!"},
+                    {"input": "0", "expected_output": "1", "description": "0!"},
+                    {"input": "10", "expected_output": "3628800", "description": "10!"}
+                ]
+            }),
+            "hint": "使用 for 循环累乘，注意 0! = 1",
+            "solution": '#include <stdio.h>\n\nint main() {\n    int n, i;\n    long long result = 1;\n    scanf("%d", &n);\n    for (i = 1; i <= n; i++) {\n        result *= i;\n    }\n    printf("%lld", result);\n    return 0;\n}'
+        },
+        {
+            "lesson_id": 12,
+            "title": "打印九九乘法表",
+            "description": "打印九九乘法表，格式如：1*1=1（每行末尾无空格，乘积对齐）。",
+            "difficulty": 3,
+            "language": "c",
+            "initial_code": '#include <stdio.h>\n\nint main() {\n    // 打印九九乘法表\n    \n    return 0;\n}',
+            "test_cases": json.dumps({
+                "test_type": "output",
+                "cases": [{"input": "", "expected_output": "1*1=1\n1*2=2 2*2=4\n1*3=3 2*3=6 3*3=9\n1*4=4 2*4=8 3*4=12 4*4=16\n1*5=5 2*5=10 3*5=15 4*5=20 5*5=25\n1*6=6 2*6=12 3*6=18 4*6=24 5*6=30 6*6=36\n1*7=7 2*7=14 3*7=21 4*7=28 5*7=35 6*7=42 7*7=49\n1*8=8 2*8=16 3*8=24 4*8=32 5*8=40 6*8=48 7*8=56 8*8=64\n1*9=9 2*9=18 3*9=27 4*9=36 5*9=45 6*9=54 7*9=63 8*9=72 9*9=81", "description": "九九乘法表"}]
+            }),
+            "hint": "使用两层嵌套循环，外层控制行，内层控制列",
+            "solution": '#include <stdio.h>\n\nint main() {\n    int i, j;\n    for (i = 1; i <= 9; i++) {\n        for (j = 1; j <= i; j++) {\n            if (j > 1) printf(" ");\n            printf("%d*%d=%d", j, i, j * i);\n        }\n        if (i < 9) printf("\\n");\n    }\n    return 0;\n}'
+        },
+        # 第六章练习 (数组) - lesson_id: 13
+        {
+            "lesson_id": 13,
+            "title": "数组求和",
+            "description": "读取一个整数n，然后读取n个整数，输出这n个整数的和。",
+            "difficulty": 1,
+            "language": "c",
+            "initial_code": '#include <stdio.h>\n\nint main() {\n    int n;\n    // 读取n和n个整数，输出和\n    \n    return 0;\n}',
+            "test_cases": json.dumps({
+                "test_type": "output",
+                "cases": [
+                    {"input": "5\n1 2 3 4 5", "expected_output": "15", "description": "5个数"},
+                    {"input": "3\n10 20 30", "expected_output": "60", "description": "3个数"}
+                ]
+            }),
+            "hint": "使用数组存储输入，然后遍历求和",
+            "solution": '#include <stdio.h>\n\nint main() {\n    int n, i, sum = 0;\n    int arr[100];\n    scanf("%d", &n);\n    for (i = 0; i < n; i++) {\n        scanf("%d", &arr[i]);\n        sum += arr[i];\n    }\n    printf("%d", sum);\n    return 0;\n}'
+        },
+        {
+            "lesson_id": 13,
+            "title": "字符串反转",
+            "description": "读取一个字符串（不超过100个字符，不含空格），输出反转后的字符串。",
+            "difficulty": 2,
+            "language": "c",
+            "initial_code": '#include <stdio.h>\n#include <string.h>\n\nint main() {\n    char str[101];\n    // 读取字符串并反转输出\n    \n    return 0;\n}',
+            "test_cases": json.dumps({
+                "test_type": "output",
+                "cases": [
+                    {"input": "hello", "expected_output": "olleh", "description": "hello"},
+                    {"input": "abcd", "expected_output": "dcba", "description": "abcd"}
+                ]
+            }),
+            "hint": "使用 strlen 获取长度，然后从后往前输出",
+            "solution": '#include <stdio.h>\n#include <string.h>\n\nint main() {\n    char str[101];\n    scanf("%s", str);\n    int len = strlen(str);\n    for (int i = len - 1; i >= 0; i--) {\n        printf("%c", str[i]);\n    }\n    return 0;\n}'
+        },
+        # 第七章练习 (函数) - lesson_id: 14
+        {
+            "lesson_id": 14,
+            "title": "递归求斐波那契",
+            "description": "读取一个整数n（1<=n<=20），使用递归计算并输出第n个斐波那契数。F(1)=1, F(2)=1, F(n)=F(n-1)+F(n-2)",
+            "difficulty": 2,
+            "language": "c",
+            "initial_code": '#include <stdio.h>\n\n// 定义递归函数\nint fib(int n) {\n    // 实现斐波那契递归\n}\n\nint main() {\n    int n;\n    scanf("%d", &n);\n    printf("%d", fib(n));\n    return 0;\n}',
+            "test_cases": json.dumps({
+                "test_type": "output",
+                "cases": [
+                    {"input": "1", "expected_output": "1", "description": "F(1)"},
+                    {"input": "10", "expected_output": "55", "description": "F(10)"},
+                    {"input": "20", "expected_output": "6765", "description": "F(20)"}
+                ]
+            }),
+            "hint": "递归终止条件：n <= 2 时返回 1",
+            "solution": '#include <stdio.h>\n\nint fib(int n) {\n    if (n <= 2) return 1;\n    return fib(n - 1) + fib(n - 2);\n}\n\nint main() {\n    int n;\n    scanf("%d", &n);\n    printf("%d", fib(n));\n    return 0;\n}'
+        },
+        # 第八章练习 (指针基础) - lesson_id: 15
+        {
+            "lesson_id": 15,
+            "title": "指针交换",
+            "description": "实现swap函数，使用指针交换两个整数的值。main函数会读取两个整数并调用swap后输出。",
+            "difficulty": 2,
+            "language": "c",
+            "initial_code": '#include <stdio.h>\n\n// 实现swap函数，交换两个整数的值\nvoid swap(int *a, int *b) {\n    // 在这里实现交换逻辑\n}\n\nint main() {\n    int x, y;\n    scanf("%d %d", &x, &y);\n    swap(&x, &y);\n    printf("%d %d", x, y);\n    return 0;\n}',
+            "test_cases": json.dumps({
+                "test_type": "output",
+                "cases": [
+                    {"input": "3 5", "expected_output": "5 3", "description": "交换3和5"},
+                    {"input": "10 20", "expected_output": "20 10", "description": "交换10和20"}
+                ]
+            }),
+            "hint": "使用临时变量和解引用操作符 *",
+            "solution": '#include <stdio.h>\n\nvoid swap(int *a, int *b) {\n    int temp = *a;\n    *a = *b;\n    *b = temp;\n}\n\nint main() {\n    int x, y;\n    scanf("%d %d", &x, &y);\n    swap(&x, &y);\n    printf("%d %d", x, y);\n    return 0;\n}'
+        }
+    ]
+
+    # 合并所有练习题
+    all_exercises = exercises_data + c_exercises_data
+
+    for data in all_exercises:
         exercise = Exercise(**data)
         db.session.add(exercise)
 
     db.session.commit()
-    print(f"已添加 {len(exercises_data)} 道练习题")
+    print(f"已添加 {len(exercises_data)} 道Python练习题")
+    print(f"已添加 {len(c_exercises_data)} 道C语言练习题")
 
 
 def init_database():
