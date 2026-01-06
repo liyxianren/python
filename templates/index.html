@@ -1,283 +1,180 @@
 {% extends "base.html" %}
 
-{% block title %}首页 - 编程学习平台{% endblock %}
+{% block title %}Code Learn - 编程学习平台{% endblock %}
 
 {% block content %}
-<div class="container">
-    <section class="hero">
-        <h1>编程学习平台</h1>
-        <p class="hero-subtitle">从零开始，系统学习编程，掌握编程思维，开启你的编程之旅</p>
-        <p class="hero-desc">支持 Python 和 C 语言在线学习与练习</p>
+<div class="home-container">
+    <!-- Hero 区域 -->
+    <section class="home-hero">
+        <h1>学习编程，从这里开始</h1>
+        <p>选择一门语言，开始你的编程之旅</p>
     </section>
 
     <!-- 语言选择卡片 -->
-    <section class="language-selection">
-        <h2>选择学习语言</h2>
-        <div class="language-cards">
-            <!-- Python 卡片 -->
-            <a href="/python/lessons" class="language-card python-card">
-                <div class="language-icon">
-                    <span class="lang-badge-large lang-python">Py</span>
-                </div>
-                <h3>Python</h3>
-                <p class="language-desc">简洁易学，适合初学者。广泛应用于数据科学、Web开发、人工智能等领域。</p>
-                <ul class="language-features">
-                    <li>7 章系统课程</li>
-                    <li>40+ 道练习题</li>
-                    <li>在线代码练习场</li>
-                </ul>
-                <span class="card-btn">开始学习 Python →</span>
-            </a>
+    <section class="language-select">
+        <a href="/python/lessons" class="lang-card python">
+            <div class="lang-icon">Py</div>
+            <div class="lang-content">
+                <h2>Python</h2>
+                <p>简洁易学，7章课程，40+练习题</p>
+            </div>
+            <span class="lang-arrow">→</span>
+        </a>
 
-            <!-- C语言 卡片 -->
-            <a href="/c/lessons" class="language-card c-card">
-                <div class="language-icon">
-                    <span class="lang-badge-large lang-c">C</span>
-                </div>
-                <h3>C语言</h3>
-                <p class="language-desc">经典系统编程语言，贴近底层硬件。学好C语言是理解计算机原理的基础。</p>
-                <ul class="language-features">
-                    <li>8 章系统课程</li>
-                    <li>14+ 道练习题</li>
-                    <li>在线编译运行</li>
-                </ul>
-                <span class="card-btn">开始学习 C语言 →</span>
-            </a>
-        </div>
-    </section>
-
-    <!-- Python 课程预览 -->
-    <section class="features">
-        <h2>Python 课程内容</h2>
-        <div class="feature-grid">
-            <div class="feature-card">
-                <div class="feature-icon">📝</div>
-                <h3>Python基础</h3>
-                <p>变量与数据类型、输入输出、运算符、类型转换</p>
+        <a href="/c/lessons" class="lang-card c-lang">
+            <div class="lang-icon">C</div>
+            <div class="lang-content">
+                <h2>C语言</h2>
+                <p>贴近底层，8章课程，14+练习题</p>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon">🔄</div>
-                <h3>条件与循环</h3>
-                <p>if/elif/else条件判断、for和while循环</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">⚡</div>
-                <h3>函数与方法</h3>
-                <p>函数定义与调用、参数传递、返回值</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">📊</div>
-                <h3>列表与字典</h3>
-                <p>列表操作、字典使用、切片、推导式</p>
-            </div>
-        </div>
-        <div class="section-action">
-            <a href="/python/lessons" class="btn btn-primary">查看全部 Python 课程 →</a>
-        </div>
-    </section>
-
-    <!-- C语言 课程预览 -->
-    <section class="features features-c">
-        <h2>C语言 课程内容</h2>
-        <div class="feature-grid">
-            <div class="feature-card">
-                <div class="feature-icon">🔧</div>
-                <h3>C语言入门</h3>
-                <p>Hello World、编译流程、printf输出</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🔢</div>
-                <h3>数据类型与变量</h3>
-                <p>int/float/char、scanf输入、类型转换</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🔄</div>
-                <h3>循环与数组</h3>
-                <p>for/while循环、一维二维数组、字符串</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🎯</div>
-                <h3>函数与指针</h3>
-                <p>函数定义、递归、指针概念与操作</p>
-            </div>
-        </div>
-        <div class="section-action">
-            <a href="/c/lessons" class="btn btn-primary">查看全部 C语言 课程 →</a>
-        </div>
+            <span class="lang-arrow">→</span>
+        </a>
     </section>
 </div>
 
 <style>
-/* 首页专用样式 */
-.hero-desc {
-    color: rgba(255,255,255,0.8);
-    font-size: 1.1rem;
-    margin-top: 10px;
-}
-
-.language-selection {
-    padding: 40px 0;
-}
-
-.language-selection h2 {
-    text-align: center;
-    font-size: 1.8rem;
-    margin-bottom: 30px;
-    color: #0f172a;
-}
-
-.language-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 30px;
+/* 首页容器 */
+.home-container {
     max-width: 900px;
     margin: 0 auto;
+    padding: 0 24px;
 }
 
-.language-card {
-    background: #fff;
+/* Hero 区域 - 极简风格 */
+.home-hero {
+    text-align: center;
+    padding: 100px 20px 60px;
+}
+
+.home-hero h1 {
+    font-size: 2.75rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+}
+
+.home-hero p {
+    font-size: 1.25rem;
+    color: #6b7280;
+    font-weight: 400;
+}
+
+/* 语言选择区域 */
+.language-select {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    padding-bottom: 100px;
+}
+
+/* 语言卡片 */
+.lang-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
     border-radius: 16px;
-    padding: 30px;
+    padding: 32px;
     text-decoration: none;
-    color: inherit;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-    transition: all 0.3s;
-    border: 2px solid transparent;
+    transition: all 0.2s ease;
 }
 
-.language-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+.lang-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.06);
 }
 
-.python-card:hover {
+.lang-card.python:hover {
     border-color: #3776ab;
 }
 
-.c-card:hover {
+.lang-card.c-lang:hover {
     border-color: #00599c;
 }
 
-.language-icon {
-    margin-bottom: 20px;
-}
-
-.lang-badge-large {
-    display: inline-flex;
+/* 语言图标 */
+.lang-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    display: flex;
     align-items: center;
     justify-content: center;
-    width: 60px;
-    height: 60px;
-    border-radius: 12px;
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: white;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #ffffff;
+    flex-shrink: 0;
 }
 
-.lang-badge-large.lang-python {
-    background: linear-gradient(135deg, #3776ab, #ffd43b);
+.python .lang-icon {
+    background: linear-gradient(135deg, #3776ab, #306998);
 }
 
-.lang-badge-large.lang-c {
+.c-lang .lang-icon {
     background: linear-gradient(135deg, #00599c, #004482);
 }
 
-.language-card h3 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-    color: #0f172a;
+/* 卡片内容 */
+.lang-content {
+    flex: 1;
 }
 
-.language-desc {
-    color: #64748b;
-    margin-bottom: 20px;
-    line-height: 1.6;
+.lang-content h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 4px;
 }
 
-.language-features {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 20px 0;
+.lang-content p {
+    font-size: 0.9rem;
+    color: #6b7280;
+    margin: 0;
 }
 
-.language-features li {
-    padding: 8px 0;
-    color: #475569;
-    border-bottom: 1px solid #f1f5f9;
+/* 箭头 */
+.lang-arrow {
+    font-size: 1.25rem;
+    color: #9ca3af;
+    transition: all 0.2s ease;
 }
 
-.language-features li:last-child {
-    border-bottom: none;
+.lang-card:hover .lang-arrow {
+    color: #111827;
+    transform: translateX(4px);
 }
 
-.language-features li::before {
-    content: "✓";
-    color: #10b981;
-    margin-right: 10px;
-}
+/* 响应式 */
+@media (max-width: 640px) {
+    .home-hero {
+        padding: 60px 16px 40px;
+    }
 
-.card-btn {
-    display: inline-block;
-    padding: 10px 20px;
-    background: var(--primary-gradient);
-    color: white;
-    border-radius: 8px;
-    font-weight: 500;
-    transition: all 0.3s;
-}
+    .home-hero h1 {
+        font-size: 2rem;
+    }
 
-.language-card:hover .card-btn {
-    transform: translateX(5px);
-}
+    .home-hero p {
+        font-size: 1rem;
+    }
 
-.section-action {
-    text-align: center;
-    margin-top: 30px;
-}
+    .language-select {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding-bottom: 60px;
+    }
 
-.features-c {
-    background: #f8fafc;
-    margin: 0 -20px;
-    padding: 40px 20px;
-}
+    .lang-card {
+        padding: 24px;
+    }
 
-/* 导航栏语言徽章 */
-.lang-badge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 28px;
-    height: 28px;
-    border-radius: 6px;
-    font-size: 0.75rem;
-    font-weight: bold;
-    color: white;
-    margin-right: 8px;
-}
-
-.lang-badge.lang-python {
-    background: linear-gradient(135deg, #3776ab, #ffd43b);
-}
-
-.lang-badge.lang-c {
-    background: linear-gradient(135deg, #00599c, #004482);
-}
-
-.nav-divider {
-    width: 1px;
-    height: 20px;
-    background: rgba(255,255,255,0.3);
-    margin: 0 10px;
-}
-
-.nav-switch {
-    background: rgba(255,255,255,0.1);
-    padding: 6px 12px !important;
-    border-radius: 6px;
-}
-
-.nav-switch:hover {
-    background: rgba(255,255,255,0.2);
+    .lang-icon {
+        width: 48px;
+        height: 48px;
+        font-size: 1rem;
+    }
 }
 </style>
 {% endblock %}

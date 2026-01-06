@@ -20,26 +20,21 @@
 
     <nav class="navbar">
         <div class="nav-container">
-            <a href="/" class="nav-logo">
-                {% if lang == 'c' %}
-                    <span class="lang-badge lang-c">C</span> C语言学习
-                {% else %}
-                    <span class="lang-badge lang-python">Py</span> Python学习
-                {% endif %}
-            </a>
-            <ul class="nav-menu">
-                <li><a href="/" class="nav-link">首页</a></li>
-                <li><a href="{{ lang_prefix }}/lessons" class="nav-link">教程</a></li>
-                <li><a href="{{ lang_prefix }}/playground" class="nav-link">代码练习场</a></li>
-                <li><a href="{{ lang_prefix }}/exercises" class="nav-link">练习题</a></li>
-                <li class="nav-divider"></li>
-                <li>
-                    <a href="{% if lang == 'python' %}/c/lessons{% else %}/python/lessons{% endif %}"
-                       class="nav-link nav-switch">
-                        切换到 {% if lang == 'python' %}C语言{% else %}Python{% endif %}
-                    </a>
-                </li>
-            </ul>
+            <!-- Logo -->
+            <a href="/" class="nav-logo">Code Learn</a>
+
+            <!-- 导航链接 -->
+            <div class="nav-links">
+                <a href="{{ lang_prefix }}/lessons" class="nav-link">教程</a>
+                <a href="{{ lang_prefix }}/playground" class="nav-link">练习场</a>
+                <a href="{{ lang_prefix }}/exercises" class="nav-link">题库</a>
+            </div>
+
+            <!-- 语言切换器 -->
+            <div class="lang-switcher">
+                <a href="/python/lessons" class="lang-btn {% if lang == 'python' %}active{% endif %}">Python</a>
+                <a href="/c/lessons" class="lang-btn {% if lang == 'c' %}active{% endif %}">C</a>
+            </div>
         </div>
     </nav>
 
