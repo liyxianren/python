@@ -1107,6 +1107,295 @@ def init_exercises():
             }),
             "hint": "使用临时变量和解引用操作符 *",
             "solution": '#include <stdio.h>\n\nvoid swap(int *a, int *b) {\n    int temp = *a;\n    *a = *b;\n    *b = temp;\n}\n\nint main() {\n    int x, y;\n    scanf("%d %d", &x, &y);\n    swap(&x, &y);\n    printf("%d %d", x, y);\n    return 0;\n}'
+        },
+        # ==================== 新增练习题 ====================
+        # 第一章补充 (C语言入门) - lesson_id: 8
+        {
+            "lesson_id": 8,
+            "title": "打印图形",
+            "description": "输出以下图形（使用星号）：\n```\n*\n**\n***\n```",
+            "difficulty": 1,
+            "language": "c",
+            "initial_code": '#include <stdio.h>\n\nint main() {\n    // 输出三行星号\n    \n    return 0;\n}',
+            "test_cases": json.dumps({
+                "test_type": "output",
+                "cases": [{"input": "", "expected_output": "*\n**\n***", "description": "打印三角形"}]
+            }),
+            "hint": "使用三个 printf 语句，每行输出不同数量的星号",
+            "solution": '#include <stdio.h>\n\nint main() {\n    printf("*\\n");\n    printf("**\\n");\n    printf("***");\n    return 0;\n}'
+        },
+        # 第二章补充 (数据类型与变量) - lesson_id: 9
+        {
+            "lesson_id": 9,
+            "title": "计算圆的面积",
+            "description": "读取圆的半径（浮点数），计算并输出圆的面积（保留2位小数）。PI = 3.14159",
+            "difficulty": 1,
+            "language": "c",
+            "initial_code": '#include <stdio.h>\n\nint main() {\n    float radius;\n    float PI = 3.14159;\n    // 读取半径，计算并输出面积\n    \n    return 0;\n}',
+            "test_cases": json.dumps({
+                "test_type": "output",
+                "cases": [
+                    {"input": "5", "expected_output": "78.54", "description": "半径5"},
+                    {"input": "1", "expected_output": "3.14", "description": "半径1"},
+                    {"input": "10", "expected_output": "314.16", "description": "半径10"}
+                ]
+            }),
+            "hint": "面积 = PI * r * r，使用 %.2f 控制小数位数",
+            "solution": '#include <stdio.h>\n\nint main() {\n    float radius;\n    float PI = 3.14159;\n    scanf("%f", &radius);\n    float area = PI * radius * radius;\n    printf("%.2f", area);\n    return 0;\n}'
+        },
+        {
+            "lesson_id": 9,
+            "title": "秒数转换",
+            "description": "读取一个秒数（整数），转换为 分:秒 格式输出。例如输入125，输出 2:05",
+            "difficulty": 2,
+            "language": "c",
+            "initial_code": '#include <stdio.h>\n\nint main() {\n    int seconds;\n    // 读取秒数，转换并输出\n    \n    return 0;\n}',
+            "test_cases": json.dumps({
+                "test_type": "output",
+                "cases": [
+                    {"input": "125", "expected_output": "2:05", "description": "125秒"},
+                    {"input": "60", "expected_output": "1:00", "description": "60秒"},
+                    {"input": "45", "expected_output": "0:45", "description": "45秒"}
+                ]
+            }),
+            "hint": "分钟 = seconds / 60，剩余秒 = seconds % 60，使用 %02d 补零",
+            "solution": '#include <stdio.h>\n\nint main() {\n    int seconds;\n    scanf("%d", &seconds);\n    int min = seconds / 60;\n    int sec = seconds % 60;\n    printf("%d:%02d", min, sec);\n    return 0;\n}'
+        },
+        # 第三章补充 (运算符与表达式) - lesson_id: 10
+        {
+            "lesson_id": 10,
+            "title": "绝对值",
+            "description": "读取一个整数，输出它的绝对值。",
+            "difficulty": 1,
+            "language": "c",
+            "initial_code": '#include <stdio.h>\n\nint main() {\n    int num;\n    // 读取整数，输出绝对值\n    \n    return 0;\n}',
+            "test_cases": json.dumps({
+                "test_type": "output",
+                "cases": [
+                    {"input": "-5", "expected_output": "5", "description": "-5的绝对值"},
+                    {"input": "10", "expected_output": "10", "description": "10的绝对值"},
+                    {"input": "0", "expected_output": "0", "description": "0的绝对值"}
+                ]
+            }),
+            "hint": "如果数小于0，取相反数",
+            "solution": '#include <stdio.h>\n\nint main() {\n    int num;\n    scanf("%d", &num);\n    if (num < 0) num = -num;\n    printf("%d", num);\n    return 0;\n}'
+        },
+        {
+            "lesson_id": 10,
+            "title": "四则运算",
+            "description": "读取两个整数a和b，分别输出它们的和、差、积、商（整数除法）。每个结果占一行。",
+            "difficulty": 1,
+            "language": "c",
+            "initial_code": '#include <stdio.h>\n\nint main() {\n    int a, b;\n    // 读取两个整数，输出四则运算结果\n    \n    return 0;\n}',
+            "test_cases": json.dumps({
+                "test_type": "output",
+                "cases": [
+                    {"input": "10\n3", "expected_output": "13\n7\n30\n3", "description": "10和3"},
+                    {"input": "20\n4", "expected_output": "24\n16\n80\n5", "description": "20和4"}
+                ]
+            }),
+            "hint": "分别计算 a+b, a-b, a*b, a/b",
+            "solution": '#include <stdio.h>\n\nint main() {\n    int a, b;\n    scanf("%d", &a);\n    scanf("%d", &b);\n    printf("%d\\n", a + b);\n    printf("%d\\n", a - b);\n    printf("%d\\n", a * b);\n    printf("%d", a / b);\n    return 0;\n}'
+        },
+        # 第四章补充 (条件语句) - lesson_id: 11
+        {
+            "lesson_id": 11,
+            "title": "判断闰年",
+            "description": "读取一个年份，判断是否为闰年。闰年条件：能被4整除但不能被100整除，或能被400整除。是闰年输出 yes，否则输出 no",
+            "difficulty": 2,
+            "language": "c",
+            "initial_code": '#include <stdio.h>\n\nint main() {\n    int year;\n    // 读取年份，判断是否为闰年\n    \n    return 0;\n}',
+            "test_cases": json.dumps({
+                "test_type": "output",
+                "cases": [
+                    {"input": "2024", "expected_output": "yes", "description": "2024是闰年"},
+                    {"input": "2023", "expected_output": "no", "description": "2023不是闰年"},
+                    {"input": "2000", "expected_output": "yes", "description": "2000是闰年"},
+                    {"input": "1900", "expected_output": "no", "description": "1900不是闰年"}
+                ]
+            }),
+            "hint": "使用逻辑运算符 && 和 || 组合条件",
+            "solution": '#include <stdio.h>\n\nint main() {\n    int year;\n    scanf("%d", &year);\n    if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {\n        printf("yes");\n    } else {\n        printf("no");\n    }\n    return 0;\n}'
+        },
+        {
+            "lesson_id": 11,
+            "title": "判断正负零",
+            "description": "读取一个整数，如果是正数输出 positive，负数输出 negative，零输出 zero",
+            "difficulty": 1,
+            "language": "c",
+            "initial_code": '#include <stdio.h>\n\nint main() {\n    int num;\n    // 读取整数，判断正负零\n    \n    return 0;\n}',
+            "test_cases": json.dumps({
+                "test_type": "output",
+                "cases": [
+                    {"input": "5", "expected_output": "positive", "description": "正数"},
+                    {"input": "-3", "expected_output": "negative", "description": "负数"},
+                    {"input": "0", "expected_output": "zero", "description": "零"}
+                ]
+            }),
+            "hint": "使用 if-else if-else 判断",
+            "solution": '#include <stdio.h>\n\nint main() {\n    int num;\n    scanf("%d", &num);\n    if (num > 0) printf("positive");\n    else if (num < 0) printf("negative");\n    else printf("zero");\n    return 0;\n}'
+        },
+        # 第五章补充 (循环结构) - lesson_id: 12
+        {
+            "lesson_id": 12,
+            "title": "计算1到N的和",
+            "description": "读取一个正整数N，计算并输出1到N的所有整数之和。",
+            "difficulty": 1,
+            "language": "c",
+            "initial_code": '#include <stdio.h>\n\nint main() {\n    int n;\n    // 读取n，计算1到n的和\n    \n    return 0;\n}',
+            "test_cases": json.dumps({
+                "test_type": "output",
+                "cases": [
+                    {"input": "10", "expected_output": "55", "description": "1到10"},
+                    {"input": "100", "expected_output": "5050", "description": "1到100"},
+                    {"input": "1", "expected_output": "1", "description": "1到1"}
+                ]
+            }),
+            "hint": "使用 for 循环累加",
+            "solution": '#include <stdio.h>\n\nint main() {\n    int n, sum = 0;\n    scanf("%d", &n);\n    for (int i = 1; i <= n; i++) {\n        sum += i;\n    }\n    printf("%d", sum);\n    return 0;\n}'
+        },
+        {
+            "lesson_id": 12,
+            "title": "打印倒三角",
+            "description": "读取一个正整数n，打印n行的倒直角三角形。第1行有n个星号，最后一行有1个星号。",
+            "difficulty": 2,
+            "language": "c",
+            "initial_code": '#include <stdio.h>\n\nint main() {\n    int n;\n    // 读取n，打印倒三角\n    \n    return 0;\n}',
+            "test_cases": json.dumps({
+                "test_type": "output",
+                "cases": [
+                    {"input": "4", "expected_output": "****\n***\n**\n*", "description": "4行倒三角"},
+                    {"input": "3", "expected_output": "***\n**\n*", "description": "3行倒三角"}
+                ]
+            }),
+            "hint": "外层循环从n到1递减",
+            "solution": '#include <stdio.h>\n\nint main() {\n    int n;\n    scanf("%d", &n);\n    for (int i = n; i >= 1; i--) {\n        for (int j = 0; j < i; j++) {\n            printf("*");\n        }\n        if (i > 1) printf("\\n");\n    }\n    return 0;\n}'
+        },
+        {
+            "lesson_id": 12,
+            "title": "求最大公约数",
+            "description": "读取两个正整数a和b，使用辗转相除法计算并输出它们的最大公约数。",
+            "difficulty": 2,
+            "language": "c",
+            "initial_code": '#include <stdio.h>\n\nint main() {\n    int a, b;\n    // 读取两个数，计算最大公约数\n    \n    return 0;\n}',
+            "test_cases": json.dumps({
+                "test_type": "output",
+                "cases": [
+                    {"input": "12\n8", "expected_output": "4", "description": "12和8"},
+                    {"input": "17\n5", "expected_output": "1", "description": "17和5"},
+                    {"input": "100\n25", "expected_output": "25", "description": "100和25"}
+                ]
+            }),
+            "hint": "辗转相除法：gcd(a,b) = gcd(b, a%b)，直到余数为0",
+            "solution": '#include <stdio.h>\n\nint main() {\n    int a, b;\n    scanf("%d", &a);\n    scanf("%d", &b);\n    while (b != 0) {\n        int temp = b;\n        b = a % b;\n        a = temp;\n    }\n    printf("%d", a);\n    return 0;\n}'
+        },
+        # 第六章补充 (数组) - lesson_id: 13
+        {
+            "lesson_id": 13,
+            "title": "找最大值",
+            "description": "读取一个整数n，然后读取n个整数，输出其中的最大值。",
+            "difficulty": 1,
+            "language": "c",
+            "initial_code": '#include <stdio.h>\n\nint main() {\n    int n;\n    int arr[100];\n    // 读取n个整数，找最大值\n    \n    return 0;\n}',
+            "test_cases": json.dumps({
+                "test_type": "output",
+                "cases": [
+                    {"input": "5\n3 1 4 1 5", "expected_output": "5", "description": "最大值是5"},
+                    {"input": "3\n-1 -5 -2", "expected_output": "-1", "description": "负数中最大"}
+                ]
+            }),
+            "hint": "先假设第一个是最大，然后遍历比较",
+            "solution": '#include <stdio.h>\n\nint main() {\n    int n;\n    int arr[100];\n    scanf("%d", &n);\n    for (int i = 0; i < n; i++) {\n        scanf("%d", &arr[i]);\n    }\n    int max = arr[0];\n    for (int i = 1; i < n; i++) {\n        if (arr[i] > max) max = arr[i];\n    }\n    printf("%d", max);\n    return 0;\n}'
+        },
+        {
+            "lesson_id": 13,
+            "title": "统计字符",
+            "description": "读取一个字符串（不超过100字符，不含空格），统计其中字母、数字和其他字符的数量，分三行输出。",
+            "difficulty": 2,
+            "language": "c",
+            "initial_code": '#include <stdio.h>\n#include <string.h>\n\nint main() {\n    char str[101];\n    // 读取字符串，统计各类字符\n    \n    return 0;\n}',
+            "test_cases": json.dumps({
+                "test_type": "output",
+                "cases": [
+                    {"input": "Hello123!", "expected_output": "5\n3\n1", "description": "Hello123!"},
+                    {"input": "abc", "expected_output": "3\n0\n0", "description": "纯字母"}
+                ]
+            }),
+            "hint": "使用 isalpha() 和 isdigit() 函数判断字符类型",
+            "solution": '#include <stdio.h>\n#include <string.h>\n#include <ctype.h>\n\nint main() {\n    char str[101];\n    scanf("%s", str);\n    int letters = 0, digits = 0, others = 0;\n    int len = strlen(str);\n    for (int i = 0; i < len; i++) {\n        if (isalpha(str[i])) letters++;\n        else if (isdigit(str[i])) digits++;\n        else others++;\n    }\n    printf("%d\\n%d\\n%d", letters, digits, others);\n    return 0;\n}'
+        },
+        {
+            "lesson_id": 13,
+            "title": "冒泡排序",
+            "description": "读取n个整数，使用冒泡排序将它们从小到大排序后输出（空格分隔）。",
+            "difficulty": 3,
+            "language": "c",
+            "initial_code": '#include <stdio.h>\n\nint main() {\n    int n;\n    int arr[100];\n    // 读取数组，冒泡排序，输出\n    \n    return 0;\n}',
+            "test_cases": json.dumps({
+                "test_type": "output",
+                "cases": [
+                    {"input": "5\n5 2 8 1 9", "expected_output": "1 2 5 8 9", "description": "5个数排序"},
+                    {"input": "3\n3 1 2", "expected_output": "1 2 3", "description": "3个数排序"}
+                ]
+            }),
+            "hint": "两层循环，内层比较相邻元素并交换",
+            "solution": '#include <stdio.h>\n\nint main() {\n    int n;\n    int arr[100];\n    scanf("%d", &n);\n    for (int i = 0; i < n; i++) {\n        scanf("%d", &arr[i]);\n    }\n    for (int i = 0; i < n - 1; i++) {\n        for (int j = 0; j < n - 1 - i; j++) {\n            if (arr[j] > arr[j + 1]) {\n                int temp = arr[j];\n                arr[j] = arr[j + 1];\n                arr[j + 1] = temp;\n            }\n        }\n    }\n    for (int i = 0; i < n; i++) {\n        if (i > 0) printf(" ");\n        printf("%d", arr[i]);\n    }\n    return 0;\n}'
+        },
+        # 第七章补充 (函数) - lesson_id: 14
+        {
+            "lesson_id": 14,
+            "title": "判断质数函数",
+            "description": "实现 isPrime 函数判断一个数是否为质数。读取一个整数n，如果是质数输出 yes，否则输出 no",
+            "difficulty": 2,
+            "language": "c",
+            "initial_code": '#include <stdio.h>\n\n// 实现判断质数的函数\nint isPrime(int n) {\n    // 返回1表示是质数，0表示不是\n}\n\nint main() {\n    int n;\n    scanf("%d", &n);\n    if (isPrime(n)) printf("yes");\n    else printf("no");\n    return 0;\n}',
+            "test_cases": json.dumps({
+                "test_type": "output",
+                "cases": [
+                    {"input": "7", "expected_output": "yes", "description": "7是质数"},
+                    {"input": "4", "expected_output": "no", "description": "4不是质数"},
+                    {"input": "1", "expected_output": "no", "description": "1不是质数"},
+                    {"input": "17", "expected_output": "yes", "description": "17是质数"}
+                ]
+            }),
+            "hint": "检查2到sqrt(n)之间是否有能整除n的数",
+            "solution": '#include <stdio.h>\n\nint isPrime(int n) {\n    if (n < 2) return 0;\n    for (int i = 2; i * i <= n; i++) {\n        if (n % i == 0) return 0;\n    }\n    return 1;\n}\n\nint main() {\n    int n;\n    scanf("%d", &n);\n    if (isPrime(n)) printf("yes");\n    else printf("no");\n    return 0;\n}'
+        },
+        {
+            "lesson_id": 14,
+            "title": "递归求幂",
+            "description": "实现 power 函数，使用递归计算 x 的 n 次方。读取两个整数 x 和 n（n>=0），输出 x^n 的值。",
+            "difficulty": 2,
+            "language": "c",
+            "initial_code": '#include <stdio.h>\n\n// 递归计算x的n次方\nlong long power(int x, int n) {\n    // 实现递归\n}\n\nint main() {\n    int x, n;\n    scanf("%d %d", &x, &n);\n    printf("%lld", power(x, n));\n    return 0;\n}',
+            "test_cases": json.dumps({
+                "test_type": "output",
+                "cases": [
+                    {"input": "2 10", "expected_output": "1024", "description": "2^10"},
+                    {"input": "3 4", "expected_output": "81", "description": "3^4"},
+                    {"input": "5 0", "expected_output": "1", "description": "5^0"}
+                ]
+            }),
+            "hint": "递归：power(x, n) = x * power(x, n-1)，终止条件 n=0 时返回 1",
+            "solution": '#include <stdio.h>\n\nlong long power(int x, int n) {\n    if (n == 0) return 1;\n    return x * power(x, n - 1);\n}\n\nint main() {\n    int x, n;\n    scanf("%d %d", &x, &n);\n    printf("%lld", power(x, n));\n    return 0;\n}'
+        },
+        # 第八章补充 (指针基础) - lesson_id: 15
+        {
+            "lesson_id": 15,
+            "title": "指针求数组最值",
+            "description": "实现 findMinMax 函数，使用指针参数返回数组的最小值和最大值。读取n个整数，输出最小值和最大值（空格分隔）。",
+            "difficulty": 3,
+            "language": "c",
+            "initial_code": '#include <stdio.h>\n\n// 使用指针参数返回最小值和最大值\nvoid findMinMax(int arr[], int n, int *min, int *max) {\n    // 实现函数\n}\n\nint main() {\n    int n;\n    int arr[100];\n    scanf("%d", &n);\n    for (int i = 0; i < n; i++) {\n        scanf("%d", &arr[i]);\n    }\n    int min, max;\n    findMinMax(arr, n, &min, &max);\n    printf("%d %d", min, max);\n    return 0;\n}',
+            "test_cases": json.dumps({
+                "test_type": "output",
+                "cases": [
+                    {"input": "5\n3 1 4 1 5", "expected_output": "1 5", "description": "最小1最大5"},
+                    {"input": "3\n10 20 15", "expected_output": "10 20", "description": "最小10最大20"}
+                ]
+            }),
+            "hint": "遍历数组，更新 *min 和 *max 的值",
+            "solution": '#include <stdio.h>\n\nvoid findMinMax(int arr[], int n, int *min, int *max) {\n    *min = arr[0];\n    *max = arr[0];\n    for (int i = 1; i < n; i++) {\n        if (arr[i] < *min) *min = arr[i];\n        if (arr[i] > *max) *max = arr[i];\n    }\n}\n\nint main() {\n    int n;\n    int arr[100];\n    scanf("%d", &n);\n    for (int i = 0; i < n; i++) {\n        scanf("%d", &arr[i]);\n    }\n    int min, max;\n    findMinMax(arr, n, &min, &max);\n    printf("%d %d", min, max);\n    return 0;\n}'
         }
     ]
 
